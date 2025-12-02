@@ -38,7 +38,8 @@ def process_command(game_state: dict, command: str):
             case 'solve':
                 if game_state['current_room'] == 'treasure_room':
                     attempt_open_treasure(game_state)
-                solve_puzzle(game_state)
+                else:
+                    solve_puzzle(game_state)
             case 'help':
                 show_help()
             case 'quit' | 'exit':
