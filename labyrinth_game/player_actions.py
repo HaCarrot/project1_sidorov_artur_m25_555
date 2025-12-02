@@ -17,7 +17,7 @@ def get_input(prompt="> "):
         return "quit" 
 
 def move_player(game_state: dict, direction: str):
-    if direction in ROOMS['exits']:
+    if direction in ROOMS[game_state['current_room']]['exits']:
         game_state['current_room'] = ROOMS['exits'][direction]
         game_state['steps_taken'] += 1
         describe_current_room(game_state)
@@ -25,9 +25,12 @@ def move_player(game_state: dict, direction: str):
         print("\033[31mНельзя пойти в этом направлении!\033[0m")
 
 def take_item(game_state: dict, item_name: str):
-    if item_name in ROOMS['items']:
+    if item_name == 'treasure_chest':
+        print("Вы не можете поднять сундук, он слишком тяжелый.")
+    if item_name in ROOMS[game_state['current_room']]['items']\
+    and ROOMS[game_state['current_room']]['puzzle'] is not None:
         game_state['player_inventory'].append(item_name) 
-        ROOMS['items'].remove(item_name)
+        ROOMS[game_state['current_room']]['items'].remove(item_name)
         print(f"Вы подобрали: \033[35m{item_name}\033[0m")
         describe_current_room(game_state)
     else:
