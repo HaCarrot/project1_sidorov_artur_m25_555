@@ -29,8 +29,8 @@ def process_command(game_state: dict, command: str):
                 describe_current_room(game_state)
             case 'use':
                 use_item(game_state, word_list[1])
-            case 'go':
-                move_player(game_state, word_list[1])
+            case 'go' | 'north' | 'east' | 'west' | 'south':
+                move_player(game_state, word_list[1] if word_list[0] == 'go' else word_list[0])
             case 'take':
                 take_item(game_state, word_list[1])
             case 'inventory':

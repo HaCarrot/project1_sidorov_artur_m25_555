@@ -20,6 +20,12 @@ def get_input(prompt="> "):
 
 def move_player(game_state: dict, direction: str):
     if direction in ROOMS[game_state['current_room']]['exits']:
+        if ROOMS[game_state['current_room']]['exits'][direction] == 'treasure_room':
+            if 'rusty_key' in game_state['player_inventory']:
+                print("Вы используете найденный ключ, чтобы открыть путь в комнату сокровищ.")
+            else:
+                print("Дверь заперта. Нужен ключ, чтобы пройти дальше.")
+                return
         game_state['current_room'] = ROOMS[game_state['current_room']]['exits'][direction]
         game_state['steps_taken'] += 1
         describe_current_room(game_state)
