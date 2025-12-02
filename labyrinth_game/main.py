@@ -1,4 +1,11 @@
 #usr/bin/env python3
+from labyrinth_game.player_actions import (
+    get_input,
+    move_player,
+    show_inventory,
+    take_item,
+    use_item,
+)
 from labyrinth_game.utils import describe_current_room
 
 game_state = {
@@ -8,11 +15,36 @@ game_state = {
     'steps_taken': 0 # Количество шагов
 }
 
+
+def process_command(game_state: dict, command: str):
+    try:
+        word_list = command.split()
+        match word_list[0]:
+            case 'look':
+                describe_current_room(game_state)
+            case 'use':
+                use_item(game_state, word_list[1])
+            case 'go':
+                move_player(game_state, word_list[1])
+            case 'take':
+                take_item(game_state, word_list[1])
+            case 'inventory':
+                show_inventory(game_state)
+            case 'quit' | 'exit':
+                return 0
+            case _:
+                raise Exception()     
+    except Exception:
+        print("Неверная команда!")
+    return None
+
 def main():
     print("\033[1mДобро пожаловать в Лабиринт сокровищ!\033[0m")
     describe_current_room(game_state)
-    #while True:
-    #   command = input("> Введите команду:")
+    while True:
+       command = get_input()
+       if process_command(game_state, command) == 0:
+           break
 
 if __name__ == "__main__":
     main()
