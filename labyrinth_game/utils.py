@@ -2,6 +2,7 @@ from labyrinth_game.constants import COMMANDS, ROOMS, COLORS
 
 
 def describe_current_room(game_state: dict):
+    """Описание текущей комнаты. Принимает игровое состояние."""
     if game_state is None: 
         return
     print(f"{COLORS['BLUE']}== {game_state['current_room'].upper()} =={COLORS['RESET']}")
@@ -18,6 +19,7 @@ def describe_current_room(game_state: dict):
         print(f"{COLORS['BLUE']}Кажется, здесь есть загадка (используйте команду solve).{COLORS['RESET']}")
 
 def solve_puzzle(game_state: dict):
+    """Функция решения загадки в комнате. Принимает игровое состояние."""
     from labyrinth_game.player_actions import get_input
     if ROOMS[game_state['current_room']]['puzzle'] is not None:
         print(ROOMS[game_state['current_room']]['puzzle'][0])
@@ -40,6 +42,7 @@ def solve_puzzle(game_state: dict):
         print("Загадок здесь нет.")
 
 def attempt_open_treasure(game_state: dict):
+    """Попытка открыть сокровище. Принимает на вход игровое состояние."""
     from labyrinth_game.player_actions import get_input
     if 'treasure_key' in game_state['player_inventory']:
         print("Вы применяете ключ, и замок щёлкает. Сундук открыт!")
@@ -64,12 +67,14 @@ def attempt_open_treasure(game_state: dict):
             print("Вы отступаете от сундука.")
 
 def pseudo_random(seed, modulo:int) -> int:
+    """Генерация случайного числа от 0 до n, n - не включительно. Принимает сид и число n."""
     from math import floor, sin
     x = sin(seed)*12.9898*43758.5453
     x -= floor(x)
     return floor(x*modulo)
 
 def trigger_trap(game_state: dict):
+    """Активирование ловушки. Принимает игровое состояние."""
     print("Ловушка активирована! Пол стал дрожать...")
     if len(game_state["player_inventory"]) > 0:
         game_state['player_inventory'].pop(pseudo_random(game_state['steps_taken'],len(game_state['player_inventory'])))
@@ -81,6 +86,7 @@ def trigger_trap(game_state: dict):
             print("\033[1mВы героически отпрыгнули и уцелели!\033[0m")
 
 def random_event(game_state: dict):
+    """Генерация случайного события. Принимает игровое состояние."""
     if pseudo_random(game_state['steps_taken'], 10) == 0:
         match pseudo_random(game_state['steps_taken'], 10):
             case 0:
@@ -96,6 +102,7 @@ def random_event(game_state: dict):
                     trigger_trap()
 
 def show_help():
+    """Функция отображения игровых комманд."""
     print("\nДоступные команды:")
     for key, value in COMMANDS.items():
         print(f"{key:16} - {value}")
