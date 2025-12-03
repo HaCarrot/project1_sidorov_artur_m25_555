@@ -7,7 +7,7 @@ def show_inventory(game_state: dict):
     if len(game_state['player_inventory']) > 0:
         print(f"{COLORS['GREEN']} * ИНВЕНТАРЬ * {COLORS['RESET']}")
         for item in game_state['player_inventory']:
-            print(f"\033[33m{item}\033[0m")
+            print(f"{COLORS['YELLOW']}{item}{COLORS['YELLOW']}")
     else:
         print("Инвентарь пуст!")
 
@@ -60,8 +60,8 @@ def use_item(game_state: dict, item_name: str):
             case 'sword':
                 print('Вы чувствуете себя увереннее!')
             case 'bronze_box':
-                print(f'Вы открыли шкатулку и обнаружили там {COLORS['MAGENTA']}rusty_key{COLORS['RESET']}!')
-                game_state['player_inventory'].append('rusty_key')
+                print(f'Вы открыли шкатулку и обнаружили там {COLORS['MAGENTA']}treasure_key{COLORS['RESET']}!')
+                game_state['player_inventory'].append('treasure_key')
             case _:
                 print("Крутая штука! Жаль, игрок не знает как это использовать.")
     else:
