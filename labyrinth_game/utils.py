@@ -1,5 +1,7 @@
 from labyrinth_game.constants import COMMANDS, ROOMS, COLORS
 
+EVENT_PROBABILITY = 10
+LUCKY_THRESHOLD = 3
 
 def describe_current_room(game_state: dict):
     """Описание текущей комнаты. Принимает игровое состояние."""
@@ -79,16 +81,16 @@ def trigger_trap(game_state: dict):
     if len(game_state["player_inventory"]) > 0:
         game_state['player_inventory'].pop(pseudo_random(game_state['steps_taken'],len(game_state['player_inventory'])))
     else:
-        if pseudo_random(game_state['steps_taken'], 9) < 3:
-            print('\033[31mВы упали в яму с шипами! Игра окончена!\033[0m')
+        if pseudo_random(game_state['steps_taken'], EVENT_PROBABILITY) < LUCKY_THRESHOLD:
+            print(f'{COLORS['RED']}Вы упали в яму с шипами! Игра окончена!{COLORS['RESET']}')
             game_state['game_over'] = True
         else:
             print("\033[1mВы героически отпрыгнули и уцелели!\033[0m")
 
 def random_event(game_state: dict):
     """Генерация случайного события. Принимает игровое состояние."""
-    if pseudo_random(game_state['steps_taken'], 10) == 0:
-        match pseudo_random(game_state['steps_taken'], 10):
+    if pseudo_random(game_state['steps_taken'], EVENT_PROBABILITY) == 0:
+        match pseudo_random(game_state['steps_taken'], EVENT_PROBABILITY):
             case 0:
                 print("На полу неожиданно появилась монетка! Магия...")
                 ROOMS[game_state['current_room']]['items'].append('coin')
