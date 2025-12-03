@@ -23,6 +23,7 @@ game_state = {
 
 
 def process_command(game_state: dict, command: str):
+    """Обрабочтик внутриигровых комманд."""
     try:
         word_list = command.split()
         match word_list[0]:
