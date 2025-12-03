@@ -12,6 +12,7 @@ from labyrinth_game.utils import (
     show_help,
     solve_puzzle,
 )
+from labyrinth_game.constants import COLORS
 
 game_state = {
     'player_inventory': [], # Инвентарь игрока
@@ -51,7 +52,7 @@ def process_command(game_state: dict, command: str):
     return None
 
 def main():
-    print("\033[1mДобро пожаловать в Лабиринт сокровищ!\033[0m")
+    print(f"{COLORS['BOLD']}Добро пожаловать в Лабиринт сокровищ!{COLORS['RESET']}")
     describe_current_room(game_state)
     while not game_state['game_over']:
        command = get_input()
