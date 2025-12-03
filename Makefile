@@ -15,3 +15,6 @@ package-install:
 
 lint:
 	poetry run ruff check . --fix
+
+lint-format:
+	poetry run ruff format
